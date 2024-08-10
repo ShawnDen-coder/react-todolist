@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
-import {toggleTodo} from "../../state/todosSlice.js";
+import DeleteIcon from "@material-ui/icons/Delete";
+import {toggleTodo, deleteTodo} from "../../state/todosSlice.js";
 import {useDispatch} from "react-redux";
+import {TodoItemStyled} from "./styles.js";
 
 TodoItem.propTypes = {
   todo: PropTypes.shape({
@@ -8,28 +10,21 @@ TodoItem.propTypes = {
     todo: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
   }).isRequired,
-  onComplete: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
-export default function TodoItem({todo, onComplete, onDelete}) {
+export default function TodoItem({todo}) {
   const dispatch = useDispatch();
-
-  const handleClick = (todo) => {
-    dispatch(toggleTodo(todo))
-  }
-
   return (
-    <div>
+    <TodoItemStyled>
       <input
         type="checkbox"
         checked={todo.completed}
-        onChange={() => onComplete(todo.id)}
-        onClick={() => handleClick(todo)}
+        onChange={() => console.log("clicked")}
+        onClick={() => dispatch(toggleTodo(todo))}
       />
       <span>{todo.todo}</span>
-      <button onClick={() => onDelete(todo.id)}>Delete</button>
-    </div>
+      <button onClick={() => dispatch(deleteTodo(todo.id))}><DeleteIcon/></button>
+    </TodoItemStyled>
   );
 }
 

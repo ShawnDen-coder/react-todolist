@@ -2,6 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchTodos, selectTodos, todosError, todosStatus} from "../../state/todosSlice.js";
 import {useEffect} from "react";
 import TodoItem from "../TodoItem";
+import TodoListStyled from "./styles.js";
 
 
 function TodoList() {
@@ -16,31 +17,21 @@ function TodoList() {
     }
   }, [status, dispatch]);
 
-
-  const onComplete = (id) => {
-    console.log(id);
-  }
-  const onDelete = (id) => {
-    console.log(id);
-  }
-
-
   return (
-    <div>
-      {status === "loading" && <p>Loading...</p>}
-      {status === "failed" && <p>Error: {error}</p>}
-      {status === "succeeded" && (
-        <ul>
-          {todos.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onComplete={onComplete}
-              onDelete={onDelete}/>))}
-        </ul>
-      )}
-    </div>
+    <>
+      <TodoListStyled>
+        {status === "loading" && <p>Loading...</p>}
+        {status === "failed" && <p>Error: {error}</p>}
+        {status === "succeeded" && (
+          <ul>
+            {[...todos]
+              .sort((a, b) => b.completed - a.completed)
+              .map((todo) => (<TodoItem key={todo.id} todo={todo}/>))}
+          </ul>
+        )}
+      </TodoListStyled>
+    </>
   );
 }
 
-export default TodoList
+export default TodoList;
