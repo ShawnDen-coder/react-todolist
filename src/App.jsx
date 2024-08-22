@@ -1,8 +1,8 @@
-import './App.css'
+import "./App.css";
 import TodoList from "./compoments/TodoList";
 
 const App = () => {
-  return (<TodoList></TodoList>);
-}
+  return <TodoList></TodoList>;
+};
 
 export default App;

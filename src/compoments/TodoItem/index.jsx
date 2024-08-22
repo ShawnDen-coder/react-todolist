@@ -1,8 +1,15 @@
 import PropTypes from "prop-types";
-import DeleteIcon from "@material-ui/icons/Delete";
-import {toggleTodo, deleteTodo} from "../../state/todosSlice.js";
-import {useDispatch} from "react-redux";
-import {TodoItemStyled} from "./styles.js";
+import { toggleTodo, deleteTodo } from "../../state/todosSlice.js";
+import { useDispatch } from "react-redux";
+import {
+  Checkbox,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
 
 TodoItem.propTypes = {
   todo: PropTypes.shape({
@@ -12,19 +19,34 @@ TodoItem.propTypes = {
   }).isRequired,
 };
 
-export default function TodoItem({todo}) {
+export default function TodoItem({ todo }) {
   const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(todo.completed);
+  const handleToggle = (event) => {
+    setIsChecked(event.target.checked);
+    dispatch(toggleTodo(todo));
+  };
+
   return (
-    <TodoItemStyled>
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        onChange={() => console.log("clicked")}
-        onClick={() => dispatch(toggleTodo(todo))}
-      />
-      <span>{todo.todo}</span>
-      <button onClick={() => dispatch(deleteTodo(todo.id))}><DeleteIcon/></button>
-    </TodoItemStyled>
+    <>
+      <ListItemButton sx={{ padding: 0.5 }}>
+        <ListItemIcon>
+          <Checkbox
+            edge="start"
+            disableRipple
+            checked={isChecked}
+            onChange={handleToggle}
+            color={isChecked ? "success" : "default"}
+          />
+        </ListItemIcon>
+        <ListItemText>
+          <Typography noWrap>{todo.todo}</Typography>
+        </ListItemText>
+        <DeleteIcon
+          sx={{ mx: 5 }}
+          onClick={() => dispatch(deleteTodo(todo.id))}
+        />
+      </ListItemButton>
+    </>
   );
 }
-

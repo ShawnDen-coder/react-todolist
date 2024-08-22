@@ -1,8 +1,8 @@
-import {defineConfig} from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-import {resolve} from 'path';
-import fs from 'fs/promises';
+import { resolve } from "path";
+import fs from "fs/promises";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,11 +13,11 @@ export default defineConfig({
   resolve: {
     alias: {
       // eslint-disable-next-line no-undef
-      src: resolve(__dirname, 'src'),
+      src: resolve(__dirname, "src"),
     },
   },
   esbuild: {
-    loader: 'jsx',
+    loader: "jsx",
     include: /src\/.*\.jsx?$/,
     exclude: [],
   },
@@ -25,19 +25,15 @@ export default defineConfig({
     esbuildOptions: {
       plugins: [
         {
-          name: 'load-js-files-as-jsx',
+          name: "load-js-files-as-jsx",
           setup(build) {
-            build.onLoad(
-              {filter: /src\\.*\.js$/},
-              async (args) => ({
-                loader: 'jsx',
-                contents: await fs.readFile(args.path, 'utf8'),
-              })
-            );
+            build.onLoad({ filter: /src\\.*\.js$/ }, async (args) => ({
+              loader: "jsx",
+              contents: await fs.readFile(args.path, "utf8"),
+            }));
           },
         },
       ],
     },
   },
-
-})
+});
