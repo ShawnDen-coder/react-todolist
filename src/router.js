@@ -4,7 +4,7 @@ import Login from "src/compoments/Login/index.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "/",
     element: <Login />,
   },
   {
