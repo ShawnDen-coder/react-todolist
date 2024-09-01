@@ -1,7 +1,11 @@
-import {useDispatch, useSelector} from "react-redux";
-import {fetchTodos, selectTodos, todosError, todosStatus} from "src/state/todosSlice.js";
-import {useEffect} from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchTodos,
+  selectTodos,
+  todosError,
+  todosStatus,
+} from "src/state/todosSlice.js";
+import { useEffect } from "react";
 
 export const useFetchTodos = () => {
   const dispatch = useDispatch();
