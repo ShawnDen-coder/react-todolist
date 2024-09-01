@@ -7,25 +7,23 @@ import {
   Autocomplete,
   TextField,
 } from "@mui/material";
-import {useFetchTodos} from "src/hooks/useTodos.js";
-import {useEffect, useState} from "react";
+import { useFetchTodos } from "src/hooks/useTodos.js";
+import { useEffect, useState } from "react";
 
 function TodoList() {
-  const {status, error, todos} = useFetchTodos();
-
+  const { status, error, todos } = useFetchTodos();
   const [page, setPage] = useState(1);
-  const [allTodos, setAllTodos] = useState(todos);
-  const [filteredTodos, setFilteredTodos] = useState(allTodos);
+  const [filteredTodos, setFilteredTodos] = useState(todos);
 
   useEffect(() => {
     if (status === "succeeded") {
-      setAllTodos(todos);
+      setFilteredTodos(todos);
     }
-  }, [status, todos]);
+  }, [status]);
 
   return (
-    <Paper sx={{mx: 20, my: 5, p: 2}}>
-      {status === "loading" && <CircularProgress/>}
+    <Paper sx={{ mx: 20, my: 5, p: 2 }}>
+      {status === "loading" && <CircularProgress />}
       {status === "failed" && <p>Error: {error}</p>}
       {status === "succeeded" && (
         <>
@@ -34,24 +32,29 @@ function TodoList() {
             id="todos-search-input"
             size="small"
             disableClearable
-            sx={{pb: 3, px: 6}}
-            options={allTodos.map((option) => option.todo)}
+            sx={{ pb: 3, px: 6 }}
+            options={todos.map((option) => option.todo)}
             onInputChange={(event, newValue) => {
-              setFilteredTodos(allTodos.filter((todo) => todo.todo.includes(newValue)))
+              const newtodos = [
+                ...todos.filter((todo) => todo.todo.includes(newValue)),
+              ];
+              setFilteredTodos(newtodos);
             }}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="Search input"
-                InputProps={{...params.InputProps, type: "search"}}
+                InputProps={{ ...params.InputProps, type: "search" }}
               />
             )}
           />
 
-          <List sx={{mx: 2}}>
-            {filteredTodos.slice((page - 1) * 10, (page - 1) * 10 + 10).map((todo) => (
-              <TodoItem key={todo.id} todo={todo}/>
-            ))}
+          <List sx={{ mx: 2 }}>
+            {filteredTodos
+              .slice((page - 1) * 10, (page - 1) * 10 + 10)
+              .map((todo) => (
+                <TodoItem key={todo.id} todo={todo} />
+              ))}
           </List>
 
           <Pagination
