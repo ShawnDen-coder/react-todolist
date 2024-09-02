@@ -7,10 +7,13 @@ const initialState = {
   error: null,
 };
 
-export const fetchTodos = createAsyncThunk("todo/fetchTasks", async () => {
-  const response = await fetch(allToDosUrl);
-  return await response.json();
-});
+export const fetchTodos = createAsyncThunk(
+  "todo/fetchTasks",
+  async (userid) => {
+    const response = await fetch(allToDosUrl(userid));
+    return await response.json();
+  },
+);
 
 export const toggleTodo = createAsyncThunk("todo/toggleTodo", async (todo) => {
   const response = await fetch(singleToDo(todo.id), {
@@ -49,7 +52,6 @@ const todosSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(toggleTodo.fulfilled, (state, action) => {
-        console.log(state.todos);
         state.todos.map((todo) => {
           if (todo.id === action.payload.id) {
             todo.completed = action.payload.completed;
@@ -64,6 +66,7 @@ const todosSlice = createSlice({
   },
 });
 
+export const currentUserInfo = (state) => state.auth.userinfo;
 export const todosStatus = (state) => state.todos.status;
 export const todosError = (state) => state.todos.error;
 export const selectTodos = (state) => state.todos.todos;

@@ -1,4 +1,5 @@
-export const allToDosUrl = "https://dummyjson.com/todos";
+export const allToDosUrl = (userid) =>
+  `https://dummyjson.com/users/${userid}/todos`;
 export const addNewToDo = "https://dummyjson.com/todos/add";
 export const singleToDo = (todoid) => `https://dummyjson.com/todos/${todoid}`;
 
