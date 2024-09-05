@@ -9,6 +9,15 @@ export default defineConfig({
   plugins: [react()],
   server: {
     cors: true,
+    proxy: {
+      "/api": {
+        target: "https://dummyjson.com",
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
   resolve: {
     alias: {

@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { allToDosUrl, singleToDo } from "../api.js";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {addNewToDo, allToDosUrl, singleToDo} from "../api.js";
 
 const initialState = {
   todos: [],
@@ -35,6 +35,17 @@ export const deleteTodo = createAsyncThunk("todo/deleteTodo", async (id) => {
   return await response.json();
 });
 
+export const addNewTodo = createAsyncThunk("todo/addNewTodo", async (todo) => {
+  const response = await fetch(addNewToDo, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(todo),
+  });
+  return await response.json();
+});
+
 const todosSlice = createSlice({
   name: "todos",
   initialState,
@@ -57,6 +68,9 @@ const todosSlice = createSlice({
             todo.completed = action.payload.completed;
           }
         });
+      })
+      .addCase(addNewTodo.fulfilled, (state, action) => {
+        state.todos.push(action.payload);
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
         state.todos = state.todos.filter(

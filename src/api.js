@@ -1,8 +1,6 @@
-export const allToDosUrl = (userid) =>
-  `https://dummyjson.com/users/${userid}/todos`;
-export const addNewToDo = "https://dummyjson.com/todos/add";
-export const singleToDo = (todoid) => `https://dummyjson.com/todos/${todoid}`;
-
-export const authenticationWithUser = "https://dummyjson.com/auth/login";
-export const authenticationWithToken = "https://dummyjson.com/auth/me";
-export const refreshAuthenticationToken = "https://dummyjson.com/auth/refresh";
+export const allToDosUrl = (userid) => `api/users/${userid}/todos`;
+export const addNewToDo = "api/todos/add";
+export const singleToDo = (todoid) => `api/todos/${todoid}`;
+export const authenticationWithUser = "api/auth/login";
+export const authenticationWithToken = "api/auth/me";
+export const refreshAuthenticationToken = "api/auth/refresh";
