@@ -8,12 +8,16 @@ import {
   ListItem,
   Checkbox,
   Typography,
+  Box,
   ListItemText,
+  Container,
+  InputAdornment,
 } from "@mui/material";
 import { useFetchTodos } from "src/hooks/useTodos.js";
 import { useEffect, useState } from "react";
 import { deleteTodo, toggleTodo } from "src/state/todosSlice.js";
 import DeleteIcon from "@mui/icons-material/Delete.js";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useDispatch } from "react-redux";
 
 function TodoList() {
@@ -46,30 +50,22 @@ function TodoList() {
   }
 
   return (
-    <Paper sx={{ mx: 20, my: 5, p: 2 }}>
+    <Container maxWidth="sm">
       {status === "loading" && <CircularProgress />}
       {status === "failed" && <p>Error: {error}</p>}
       {status === "succeeded" && (
         <>
-          <Autocomplete
-            freeSolo
-            id="todos-search-input"
+          <TextField
+            fullWidth
             size="small"
-            disableClearable
-            options={todos.map((option) => option.todo)}
-            onInputChange={(event, newValue) => {
-              const newtodos = [
-                ...todos.filter((todo) => todo.todo.includes(newValue)),
-              ];
-              setFilteredTodos(newtodos);
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <AddOutlinedIcon />
+                </InputAdornment>
+              ),
             }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search input"
-                InputProps={{ ...params.InputProps, type: "search" }}
-              />
-            )}
           />
 
           <List>
@@ -97,7 +93,7 @@ function TodoList() {
           />
         </>
       )}
-    </Paper>
+    </Container>
   );
 }
 

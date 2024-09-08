@@ -1,5 +1,5 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {addNewToDo, allToDosUrl, singleToDo} from "../api.js";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { addNewToDo, allToDosUrl, singleToDo } from "../api.js";
 
 const initialState = {
   todos: [],
